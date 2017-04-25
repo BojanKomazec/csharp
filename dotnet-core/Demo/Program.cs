@@ -6,8 +6,10 @@ namespace Demo
     {
         static void Main(string[] args)
         {
-            var linqDemo = new LinqDemo();
-            linqDemo.OrderByDemo();
+            //LambdaDemo.Demo();
+            LinqDemo.Demo();
+            //EvaluationDemo.Demo();
+            //DelegatesDemo.Demo();
         }
     }
 }
