@@ -10,6 +10,7 @@ namespace Demo
             linqDemo.LazyEvaluationDemo();
         }
 
+        // https://en.wikipedia.org/wiki/Lazy_evaluation
         public void LazyEvaluationDemo()
         {
             Console.WriteLine("LazyEvaluationDemo()");

@@ -116,6 +116,7 @@ namespace Demo
 
         // OrderBy - Orders the sequence by the key. 
         // keySelector - function which takes element of the input sequence and returns key.
+        // OrderBy uses a version of QuickSort internally.
         public void OrderByDemo()
         {
             Console.WriteLine("LinqDemo.OrderByDemo()");
@@ -156,6 +157,7 @@ namespace Demo
                 Console.WriteLine(element);
         }
 
+        // http://stackoverflow.com/questions/800151/why-is-foreach-on-ilistt-and-not-on-ienumerablet
         // http://stackoverflow.com/questions/101265/why-there-is-no-foreach-extension-method-on-ienumerable
         // http://stackoverflow.com/questions/529188/executing-a-certain-action-for-all-elements-in-an-enumerablet
         public void PrintSequence2<T>(IEnumerable<T> sequence)

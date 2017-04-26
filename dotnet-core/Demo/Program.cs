@@ -7,9 +7,11 @@ namespace Demo
         static void Main(string[] args)
         {
             //LambdaDemo.Demo();
-            LinqDemo.Demo();
+            //LinqDemo.Demo();
             //EvaluationDemo.Demo();
             //DelegatesDemo.Demo();
+            JsonDemo.Demo();
+            //WebDemo.Demo();
         }
     }
 }
