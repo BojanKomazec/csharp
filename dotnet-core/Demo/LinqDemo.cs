@@ -6,15 +6,30 @@ namespace Demo
 {
     class LinqDemo
     {
+        public class SomeObject
+        {
+            public string Name { get; set; }
+            public int Id { get; set; }
+            public List<KeyPair> ValuePairs {get;set;} 
+        }
+
+        public class KeyPair
+        {
+            public string Key { get; set; }
+            public string Value { get; set; }
+        }
+
         public static void Demo()
         {
             var linqDemo = new LinqDemo();
             //linqDemo.EnumerableRangeDemo();
             //linqDemo.SelectDemo();
-            linqDemo.OrderByDemo();
+            //linqDemo.OrderByDemo();
             //linqDemo.WhereDemo_Predicate1();
             //linqDemo.WhereDemo_Predicate2();
-            linqDemo.SelectManyDemo();
+            //linqDemo.SelectManyDemo();
+            //linqDemo.DistinctDemo();
+            linqDemo.GroupByDemo();
         }
 
         public void EnumerableRangeDemo()
@@ -149,6 +164,108 @@ namespace Demo
             var arr3 = new int[] { 45, 32, 1, 7, 8, 38, 96, 53, 2, 8, 19 };
             arr3.OrderBy( n => n).Dump();
 
+        }
+
+        public void DistinctDemo()
+        {
+            var names = new string[] { "Alberto", "Bocaccio", "Leonardo", "Leonardo", "Boticelli", "Armando", null, null };
+            var uniqueNames = names.Distinct();
+            var c = uniqueNames.Count();
+            var d = names.Count();
+            var b = names.Distinct().Count() == names.Count();
+        }
+
+
+        // Given list of SomeObject instances, create a list of objects which contain Id and ValuePairs 
+        // where all Id values are different and ValuePairs is an aggregate of all original ValuePairs
+        // grouped by Id
+        public void GroupByDemo()
+        {
+            var objects = new List<SomeObject>();
+            objects = new List<SomeObject>()
+            {
+                new SomeObject
+                {
+                    Name = "Random Object 1",
+                    Id = 5,
+                    ValuePairs= new List<KeyPair>()
+                    {
+                        new KeyPair
+                        {
+                            Key = "TestKey1",
+                            Value = "TestValue1"
+                        },
+                        new KeyPair
+                        {
+                            Key = "TestKey2",
+                            Value = "TestValue2"
+                        }
+                    }
+                },
+                new SomeObject
+                {
+                    Name = "Random Object 1",
+                    Id = 8,
+                    ValuePairs= new List<KeyPair>()
+                    {
+                        new KeyPair
+                        {
+                            Key = "TestKey5",
+                            Value = "TestValue5"
+                        },
+                        new KeyPair
+                        {
+                            Key = "TestKey6",
+                            Value = "TestValue6"
+                        }
+                    }
+                },
+                new SomeObject
+                {
+                    Name = "Rando Object 2",
+                    Id = 5,
+                    ValuePairs = new List<KeyPair>()
+                    {
+                        new KeyPair
+                        {
+                            Key = "TestKey3",
+                            Value = "TestValue3"
+                        },
+                        new KeyPair
+                        {
+                            Key = "TestKey4",
+                            Value = "TestValue4"
+                        }
+                    }
+                }
+            };
+
+            var res = objects.Where(o => o.Id == 5).SelectMany(o => o.ValuePairs);
+            foreach (var e in res)
+                Console.WriteLine();
+
+            var res2 = objects.GroupBy(o => o.Id);//.Where(group => group.Key == 5);
+            Console.WriteLine($"Type = {res2.GetType()}, res3 = {res2}");
+            foreach(var group in res2)
+            {
+                Console.WriteLine($"Key = {group.Key}");
+                foreach(var member in group)
+                {
+                    Console.WriteLine($"    member Name = {member.Name}");
+                    //Console.WriteLine($"    member ValuePairs = {member.ValuePairs}");
+                }
+            }
+
+            var res3 = objects.GroupBy(o => o.Id).Select(group => new { Id = group.Key, ValuePairs = group.SelectMany(g => g.ValuePairs)});
+            foreach(var e in res3)
+            {
+                Console.WriteLine($"Id = {e.Id}");
+                foreach(var vp in e.ValuePairs)
+                {
+                    Console.WriteLine($"    ValuePairs = {vp.Key}, {vp.Value}");
+                    //Console.WriteLine($"    member ValuePairs = {member.ValuePairs}");
+                }
+            }
         }
 
         public void PrintSequence1<T>(IEnumerable<T> sequence)
